@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic To-Do List</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Academic To-Do List</h1>
+        <div class="input-section">
+            <input type="text" id="new-task" placeholder="Add a new task...">
+            <select id="category">
+                <option value="Assignment">Assignment</option>
+                <option value="Lecture">Lecture</option>
+                <option value="Meeting">Meeting</option>
+                <option value="Exam">Exam</option>
+            </select>
+            <input type="date" id="due-date">
+            <select id="priority">
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+            <button id="add-task-btn">Add Task</button>
+        </div>
+        <ul id="task-list">
+            <!-- List items will be dynamically added here -->
+        </ul>
+    </div>
+
+    <script>
+        const addTaskBtn = document.getElementById('add-task-btn');
+        const newTaskInput = document.getElementById('new-task');
+        const categorySelect = document.getElementById('category');
+        const dueDateInput = document.getElementById('due-date');
+        const prioritySelect = document.getElementById('priority');
+        const taskList = document.getElementById('task-list');
+
+        addTaskBtn.addEventListener('click', () => {
+            const taskText = newTaskInput.value.trim();
+            const category = categorySelect.value;
+            const dueDate = dueDateInput.value;
+            const priority = prioritySelect.value;
+
+            if (taskText !== '') {
+                const li = document.createElement('li');
+                li.classList.add(priority.toLowerCase());
+
+                const taskContent = document.createElement('div');
+                taskContent.classList.add('task-content');
+                taskContent.innerHTML = `<strong>${taskText}</strong> - ${category} (Due: ${dueDate || 'No date'})`;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.classList.add('delete-btn');
+                deleteBtn.addEventListener('click', () => {
+                    taskList.removeChild(li);
+                });
+
+                li.appendChild(taskContent);
+                li.appendChild(deleteBtn);
+                taskList.appendChild(li);
+
+                newTaskInput.value = '';
+                dueDateInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>
